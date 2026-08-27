@@ -1,3 +1,5 @@
+> **Présentation → [docs/PRESENTATION.md](docs/PRESENTATION.md)** — à quoi ça sert, cas d'usages, usages futurs.
+
 # SimulationForge V1.07
 
 SimulationForge exécute côté serveur des simulations Monte Carlo simples, déterministes et auditables. Un modèle et ses hypothèses sont figés par version, puis un scénario versionné peut fixer certaines variables à l'intérieur de leurs bornes. Le client transmet uniquement l'identifiant du scénario, une seed explicite et un nombre d'itérations : il ne peut jamais fournir le résultat, le verdict ou les statistiques.
@@ -311,3 +313,4 @@ Le contrat statique se trouve dans `packages/contracts/openapi.yaml`. Le schéma
 ```
 
 Le script exécute Pytest, `compileall` et valide la cohérence du contrat OpenAPI statique et runtime.
+
