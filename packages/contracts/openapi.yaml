@@ -1,0 +1,2830 @@
+openapi: 3.1.0
+info:
+  title: SimulationForge API
+  description: Simulations, surfaces, incertitude, convergence, dérive et couverture
+    explicite de scénarios déterministes, reproductibles et non prédictives.
+  version: 1.0.7
+paths:
+  /health:
+    get:
+      summary: Health
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /info:
+    get:
+      summary: Info
+      operationId: info_info_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/models:
+    get:
+      summary: List Models
+      operationId: list_models_v1_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SimulationModel'
+                type: array
+                title: Response List Models V1 Models Get
+    post:
+      summary: Create Model
+      operationId: create_model_v1_models_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulationModelCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/models/{model_id}:
+    get:
+      summary: Get Model
+      operationId: get_model_v1_models__model_id__get
+      parameters:
+      - name: model_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Model Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scenarios:
+    get:
+      summary: List Scenarios
+      operationId: list_scenarios_v1_scenarios_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Scenario'
+                type: array
+                title: Response List Scenarios V1 Scenarios Get
+    post:
+      summary: Create Scenario
+      operationId: create_scenario_v1_scenarios_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scenario'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scenarios/{scenario_id}:
+    get:
+      summary: Get Scenario
+      operationId: get_scenario_v1_scenarios__scenario_id__get
+      parameters:
+      - name: scenario_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scenario Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scenario'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/runs:
+    get:
+      summary: List Runs
+      operationId: list_runs_v1_runs_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SimulationRun'
+                type: array
+                title: Response List Runs V1 Runs Get
+    post:
+      summary: Run Simulation
+      operationId: run_simulation_v1_runs_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulationRunCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationRun'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/runs/{run_id}:
+    get:
+      summary: Get Run
+      operationId: get_run_v1_runs__run_id__get
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Run Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationRun'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/comparisons:
+    get:
+      summary: List Comparisons
+      operationId: list_comparisons_v1_comparisons_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ScenarioComparison'
+                type: array
+                title: Response List Comparisons V1 Comparisons Get
+    post:
+      summary: Compare Scenarios
+      operationId: compare_scenarios_v1_comparisons_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioComparisonCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioComparison'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/comparisons/{comparison_id}:
+    get:
+      summary: Get Comparison
+      operationId: get_comparison_v1_comparisons__comparison_id__get
+      parameters:
+      - name: comparison_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Comparison Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioComparison'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sensitivities:
+    get:
+      summary: List Sensitivities
+      operationId: list_sensitivities_v1_sensitivities_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SensitivityAnalysis'
+                type: array
+                title: Response List Sensitivities V1 Sensitivities Get
+    post:
+      summary: Analyze Sensitivity
+      operationId: analyze_sensitivity_v1_sensitivities_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SensitivityAnalysisCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensitivityAnalysis'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sensitivities/{analysis_id}:
+    get:
+      summary: Get Sensitivity
+      operationId: get_sensitivity_v1_sensitivities__analysis_id__get
+      parameters:
+      - name: analysis_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Analysis Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensitivityAnalysis'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/interaction-surfaces:
+    get:
+      summary: List Interaction Surfaces
+      operationId: list_interaction_surfaces_v1_interaction_surfaces_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/InteractionSurface'
+                type: array
+                title: Response List Interaction Surfaces V1 Interaction Surfaces
+                  Get
+    post:
+      summary: Analyze Interaction Surface
+      operationId: analyze_interaction_surface_v1_interaction_surfaces_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InteractionSurfaceCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionSurface'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/interaction-surfaces/{surface_id}:
+    get:
+      summary: Get Interaction Surface
+      operationId: get_interaction_surface_v1_interaction_surfaces__surface_id__get
+      parameters:
+      - name: surface_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Surface Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionSurface'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uncertainty-dossiers:
+    get:
+      summary: List Uncertainty Dossiers
+      operationId: list_uncertainty_dossiers_v1_uncertainty_dossiers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UncertaintyDossier'
+                type: array
+                title: Response List Uncertainty Dossiers V1 Uncertainty Dossiers
+                  Get
+    post:
+      summary: Create Uncertainty Dossier
+      operationId: create_uncertainty_dossier_v1_uncertainty_dossiers_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UncertaintyDossierCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UncertaintyDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uncertainty-dossiers/{dossier_id}:
+    get:
+      summary: Get Uncertainty Dossier
+      operationId: get_uncertainty_dossier_v1_uncertainty_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UncertaintyDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/convergence-dossiers:
+    get:
+      summary: List Convergence Dossiers
+      operationId: list_convergence_dossiers_v1_convergence_dossiers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ConvergenceDossier'
+                type: array
+                title: Response List Convergence Dossiers V1 Convergence Dossiers
+                  Get
+    post:
+      summary: Create Convergence Dossier
+      operationId: create_convergence_dossier_v1_convergence_dossiers_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvergenceDossierCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvergenceDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/convergence-dossiers/{dossier_id}:
+    get:
+      summary: Get Convergence Dossier
+      operationId: get_convergence_dossier_v1_convergence_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvergenceDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scenario-drift-dossiers:
+    get:
+      summary: List Scenario Drift Dossiers
+      operationId: list_scenario_drift_dossiers_v1_scenario_drift_dossiers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ScenarioDriftDossier'
+                type: array
+                title: Response List Scenario Drift Dossiers V1 Scenario Drift Dossiers
+                  Get
+    post:
+      summary: Create Scenario Drift Dossier
+      operationId: create_scenario_drift_dossier_v1_scenario_drift_dossiers_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioDriftDossierCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioDriftDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scenario-drift-dossiers/{dossier_id}:
+    get:
+      summary: Get Scenario Drift Dossier
+      operationId: get_scenario_drift_dossier_v1_scenario_drift_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioDriftDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scenario-coverage-dossiers:
+    get:
+      summary: List Scenario Coverage Dossiers
+      operationId: list_scenario_coverage_dossiers_v1_scenario_coverage_dossiers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ScenarioCoverageDossier'
+                type: array
+                title: Response List Scenario Coverage Dossiers V1 Scenario Coverage
+                  Dossiers Get
+    post:
+      summary: Create Scenario Coverage Dossier
+      operationId: create_scenario_coverage_dossier_v1_scenario_coverage_dossiers_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioCoverageDossierCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioCoverageDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scenario-coverage-dossiers/{dossier_id}:
+    get:
+      summary: Get Scenario Coverage Dossier
+      operationId: get_scenario_coverage_dossier_v1_scenario_coverage_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioCoverageDossier'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/audit-events:
+    get:
+      summary: List Audit Events
+      operationId: list_audit_events_v1_audit_events_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AuditEvent'
+                type: array
+                title: Response List Audit Events V1 Audit Events Get
+components:
+  schemas:
+    AuditEvent:
+      properties:
+        id:
+          type: integer
+          title: Id
+        event_type:
+          type: string
+          title: Event Type
+        entity_type:
+          type: string
+          title: Entity Type
+        entity_id:
+          type: string
+          title: Entity Id
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+        previous_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous Hash
+        event_hash:
+          type: string
+          title: Event Hash
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - event_type
+      - entity_type
+      - entity_id
+      - payload
+      - previous_hash
+      - event_hash
+      - created_at
+      title: AuditEvent
+    ComparisonDeltas:
+      properties:
+        mean:
+          type: number
+          title: Mean
+        p05:
+          type: number
+          title: P05
+        p95:
+          type: number
+          title: P95
+        baseline_downside:
+          type: number
+          title: Baseline Downside
+        stress_downside:
+          type: number
+          title: Stress Downside
+        downside:
+          type: number
+          title: Downside
+      additionalProperties: false
+      type: object
+      required:
+      - mean
+      - p05
+      - p95
+      - baseline_downside
+      - stress_downside
+      - downside
+      title: ComparisonDeltas
+    ComparisonQualification:
+      type: string
+      enum:
+      - ROBUST
+      - FRAGILE
+      - INSUFFICIENT
+      title: ComparisonQualification
+    ConvergenceDossier:
+      properties:
+        id:
+          type: string
+          title: Id
+        run_ids:
+          items:
+            type: string
+          type: array
+          title: Run Ids
+        scenario_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scenario Id
+        scenario_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scenario Hash
+        model_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Hash
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        reference_run_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reference Run Id
+        verified_run_count:
+          type: integer
+          title: Verified Run Count
+        compatibility_errors:
+          items:
+            type: string
+          type: array
+          title: Compatibility Errors
+        points:
+          items:
+            $ref: '#/components/schemas/ConvergencePoint'
+          type: array
+          title: Points
+        worst_point:
+          anyOf:
+          - $ref: '#/components/schemas/WorstConvergencePoint'
+          - type: 'null'
+        thresholds:
+          $ref: '#/components/schemas/ConvergenceThresholds'
+        qualification:
+          $ref: '#/components/schemas/ConvergenceQualification'
+        warning:
+          type: string
+          title: Warning
+        snapshot_hash:
+          type: string
+          title: Snapshot Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        order_independent:
+          type: boolean
+          title: Order Independent
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - run_ids
+      - scenario_id
+      - scenario_hash
+      - model_hash
+      - seed
+      - algorithm_version
+      - reference_run_id
+      - verified_run_count
+      - compatibility_errors
+      - points
+      - worst_point
+      - thresholds
+      - qualification
+      - warning
+      - snapshot_hash
+      - reproducible
+      - order_independent
+      - idempotent_replay
+      - created_at
+      title: ConvergenceDossier
+    ConvergenceDossierCreate:
+      properties:
+        run_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 50
+          minItems: 3
+          title: Run Ids
+      additionalProperties: false
+      type: object
+      required:
+      - run_ids
+      title: ConvergenceDossierCreate
+    ConvergencePoint:
+      properties:
+        run_id:
+          type: string
+          title: Run Id
+        iterations:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Iterations
+        statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        absolute_deviation:
+          $ref: '#/components/schemas/SensitivityDeltas'
+        relative_deviation:
+          $ref: '#/components/schemas/CoreMetricDeviation'
+      additionalProperties: false
+      type: object
+      required:
+      - run_id
+      - iterations
+      - statistics
+      - absolute_deviation
+      - relative_deviation
+      title: ConvergencePoint
+    ConvergenceQualification:
+      type: string
+      enum:
+      - CONVERGED
+      - UNSTABLE
+      - INSUFFICIENT
+      - INCOMPATIBLE
+      title: ConvergenceQualification
+    ConvergenceThresholds:
+      properties:
+        minimum_distinct_budgets:
+          type: integer
+          title: Minimum Distinct Budgets
+        minimum_reference_iterations:
+          type: integer
+          title: Minimum Reference Iterations
+        relative_deviation_threshold:
+          type: number
+          title: Relative Deviation Threshold
+      additionalProperties: false
+      type: object
+      required:
+      - minimum_distinct_budgets
+      - minimum_reference_iterations
+      - relative_deviation_threshold
+      title: ConvergenceThresholds
+    CoreMetricDeviation:
+      properties:
+        mean:
+          type: number
+          minimum: 0.0
+          title: Mean
+        p05:
+          type: number
+          minimum: 0.0
+          title: P05
+        p95:
+          type: number
+          minimum: 0.0
+          title: P95
+        maximum:
+          type: number
+          minimum: 0.0
+          title: Maximum
+      additionalProperties: false
+      type: object
+      required:
+      - mean
+      - p05
+      - p95
+      - maximum
+      title: CoreMetricDeviation
+    Distribution:
+      type: string
+      enum:
+      - constant
+      - uniform
+      - triangular
+      title: Distribution
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InteractionMetrics:
+      properties:
+        grand_mean:
+          type: number
+          title: Grand Mean
+        mean_range:
+          type: number
+          minimum: 0.0
+          title: Mean Range
+        relative_mean_range:
+          type: number
+          minimum: 0.0
+          title: Relative Mean Range
+        x_main_effect:
+          $ref: '#/components/schemas/MainEffect'
+        y_main_effect:
+          $ref: '#/components/schemas/MainEffect'
+        maximum_absolute_additive_residual:
+          type: number
+          minimum: 0.0
+          title: Maximum Absolute Additive Residual
+        relative_interaction_residual:
+          type: number
+          minimum: 0.0
+          title: Relative Interaction Residual
+        worst_cell:
+          $ref: '#/components/schemas/WorstCell'
+      additionalProperties: false
+      type: object
+      required:
+      - grand_mean
+      - mean_range
+      - relative_mean_range
+      - x_main_effect
+      - y_main_effect
+      - maximum_absolute_additive_residual
+      - relative_interaction_residual
+      - worst_cell
+      title: InteractionMetrics
+    InteractionQualification:
+      type: string
+      enum:
+      - ADDITIVE
+      - INTERACTIVE
+      - SENSITIVE
+      - INSUFFICIENT
+      title: InteractionQualification
+    InteractionSurface:
+      properties:
+        id:
+          type: string
+          title: Id
+        scenario_id:
+          type: string
+          title: Scenario Id
+        scenario_hash:
+          type: string
+          title: Scenario Hash
+        model_hash:
+          type: string
+          title: Model Hash
+        parameter_x:
+          type: string
+          title: Parameter X
+        parameter_y:
+          type: string
+          title: Parameter Y
+        parameter_x_unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parameter X Unit
+        parameter_y_unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parameter Y Unit
+        grid_x:
+          items:
+            type: number
+          type: array
+          title: Grid X
+        grid_y:
+          items:
+            type: number
+          type: array
+          title: Grid Y
+        seed:
+          type: integer
+          title: Seed
+        iterations:
+          type: integer
+          title: Iterations
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        cells:
+          items:
+            $ref: '#/components/schemas/SurfaceCell'
+          type: array
+          title: Cells
+        metrics:
+          $ref: '#/components/schemas/InteractionMetrics'
+        qualification:
+          $ref: '#/components/schemas/InteractionQualification'
+        warning:
+          type: string
+          title: Warning
+        snapshot_hash:
+          type: string
+          title: Snapshot Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        common_random_numbers:
+          type: boolean
+          title: Common Random Numbers
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - scenario_id
+      - scenario_hash
+      - model_hash
+      - parameter_x
+      - parameter_y
+      - parameter_x_unit
+      - parameter_y_unit
+      - grid_x
+      - grid_y
+      - seed
+      - iterations
+      - algorithm_version
+      - cells
+      - metrics
+      - qualification
+      - warning
+      - snapshot_hash
+      - reproducible
+      - common_random_numbers
+      - idempotent_replay
+      - created_at
+      title: InteractionSurface
+    InteractionSurfaceCreate:
+      properties:
+        scenario_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Scenario Id
+        parameter_x:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Parameter X
+        parameter_y:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Parameter Y
+        grid_x:
+          anyOf:
+          - items:
+              type: number
+              maximum: 1000000.0
+              minimum: -1000000.0
+            type: array
+            maxItems: 7
+            minItems: 2
+          - type: 'null'
+          title: Grid X
+        start_x:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Start X
+        stop_x:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Stop X
+        steps_x:
+          anyOf:
+          - type: integer
+            maximum: 7.0
+            minimum: 2.0
+          - type: 'null'
+          title: Steps X
+        grid_y:
+          anyOf:
+          - items:
+              type: number
+              maximum: 1000000.0
+              minimum: -1000000.0
+            type: array
+            maxItems: 7
+            minItems: 2
+          - type: 'null'
+          title: Grid Y
+        start_y:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Start Y
+        stop_y:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Stop Y
+        steps_y:
+          anyOf:
+          - type: integer
+            maximum: 7.0
+            minimum: 2.0
+          - type: 'null'
+          title: Steps Y
+        seed:
+          type: integer
+          maximum: 9.223372036854776e+18
+          minimum: -9.223372036854776e+18
+          title: Seed
+        iterations:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Iterations
+      additionalProperties: false
+      type: object
+      required:
+      - scenario_id
+      - parameter_x
+      - parameter_y
+      - seed
+      - iterations
+      title: InteractionSurfaceCreate
+    InteractionTerm:
+      properties:
+        parameter_x:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Parameter X
+        parameter_y:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Parameter Y
+        coefficient:
+          type: number
+          maximum: 1000000.0
+          minimum: -1000000.0
+          title: Coefficient
+      additionalProperties: false
+      type: object
+      required:
+      - parameter_x
+      - parameter_y
+      - coefficient
+      title: InteractionTerm
+    LimitViolation:
+      properties:
+        run_id:
+          type: string
+          title: Run Id
+        metric:
+          $ref: '#/components/schemas/RunMetric'
+        value:
+          type: number
+          title: Value
+        bound:
+          type: number
+          title: Bound
+        direction:
+          type: string
+          title: Direction
+      additionalProperties: false
+      type: object
+      required:
+      - run_id
+      - metric
+      - value
+      - bound
+      - direction
+      title: LimitViolation
+    MainEffect:
+      properties:
+        minimum_marginal_mean:
+          type: number
+          title: Minimum Marginal Mean
+        maximum_marginal_mean:
+          type: number
+          title: Maximum Marginal Mean
+        mean_range:
+          type: number
+          minimum: 0.0
+          title: Mean Range
+        endpoint_slope:
+          type: number
+          title: Endpoint Slope
+      additionalProperties: false
+      type: object
+      required:
+      - minimum_marginal_mean
+      - maximum_marginal_mean
+      - mean_range
+      - endpoint_slope
+      title: MainEffect
+    MeanDirection:
+      type: string
+      enum:
+      - POSITIVE
+      - NEGATIVE
+      - MIXED
+      - ZERO
+      title: MeanDirection
+    MetricEnvelope:
+      properties:
+        metric:
+          $ref: '#/components/schemas/RunMetric'
+        count:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Count
+        minimum:
+          type: number
+          title: Minimum
+        maximum:
+          type: number
+          title: Maximum
+        mean:
+          type: number
+          title: Mean
+        p05:
+          type: number
+          title: P05
+        median:
+          type: number
+          title: Median
+        p95:
+          type: number
+          title: P95
+        width:
+          type: number
+          minimum: 0.0
+          title: Width
+        relative_width:
+          type: number
+          minimum: 0.0
+          title: Relative Width
+      additionalProperties: false
+      type: object
+      required:
+      - metric
+      - count
+      - minimum
+      - maximum
+      - mean
+      - p05
+      - median
+      - p95
+      - width
+      - relative_width
+      title: MetricEnvelope
+    MetricLimit:
+      properties:
+        metric:
+          $ref: '#/components/schemas/RunMetric'
+        minimum_allowed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Minimum Allowed
+        maximum_allowed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Maximum Allowed
+      additionalProperties: false
+      type: object
+      required:
+      - metric
+      title: MetricLimit
+    Monotonicity:
+      type: string
+      enum:
+      - INCREASING
+      - DECREASING
+      - FLAT
+      - NON_MONOTONIC
+      title: Monotonicity
+    OutcomeSpec:
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Name
+        unit:
+          anyOf:
+          - type: string
+            maxLength: 32
+          - type: 'null'
+          title: Unit
+        intercept:
+          type: number
+          maximum: 1000000.0
+          minimum: -1000000.0
+          title: Intercept
+          default: 0.0
+        coefficients:
+          additionalProperties:
+            type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          type: object
+          maxProperties: 32
+          minProperties: 1
+          title: Coefficients
+        interactions:
+          items:
+            $ref: '#/components/schemas/InteractionTerm'
+          type: array
+          maxItems: 64
+          title: Interactions
+          default: []
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - coefficients
+      title: OutcomeSpec
+    ParameterCoverage:
+      properties:
+        parameter:
+          type: string
+          title: Parameter
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit
+        lower_bound:
+          type: number
+          title: Lower Bound
+        upper_bound:
+          type: number
+          title: Upper Bound
+        override_count:
+          type: integer
+          title: Override Count
+        distinct_override_count:
+          type: integer
+          title: Distinct Override Count
+        minimum_override:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Minimum Override
+        maximum_override:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Maximum Override
+        span_ratio:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Span Ratio
+        lower_bound_covered:
+          type: boolean
+          title: Lower Bound Covered
+        upper_bound_covered:
+          type: boolean
+          title: Upper Bound Covered
+        coverage_status:
+          type: string
+          title: Coverage Status
+      additionalProperties: false
+      type: object
+      required:
+      - parameter
+      - unit
+      - lower_bound
+      - upper_bound
+      - override_count
+      - distinct_override_count
+      - minimum_override
+      - maximum_override
+      - span_ratio
+      - lower_bound_covered
+      - upper_bound_covered
+      - coverage_status
+      title: ParameterCoverage
+    RankingStability:
+      type: string
+      enum:
+      - STABLE
+      - MIXED
+      - NOT_APPLICABLE
+      title: RankingStability
+    RobustnessQualification:
+      type: string
+      enum:
+      - ROBUST
+      - UNCERTAINTY_SENSITIVE
+      - LIMIT_BREACH
+      - INSUFFICIENT
+      - INCOMPATIBLE
+      title: RobustnessQualification
+    RobustnessThresholds:
+      properties:
+        minimum_run_count:
+          type: integer
+          title: Minimum Run Count
+        relative_width_threshold:
+          type: number
+          title: Relative Width Threshold
+        ranking_agreement_threshold:
+          type: number
+          title: Ranking Agreement Threshold
+      additionalProperties: false
+      type: object
+      required:
+      - minimum_run_count
+      - relative_width_threshold
+      - ranking_agreement_threshold
+      title: RobustnessThresholds
+    RunMetric:
+      type: string
+      enum:
+      - minimum
+      - maximum
+      - mean
+      - population_stddev
+      - p05
+      - median
+      - p95
+      title: RunMetric
+    Scenario:
+      properties:
+        id:
+          type: string
+          title: Id
+        scenario_hash:
+          type: string
+          title: Scenario Hash
+        model_hash:
+          type: string
+          title: Model Hash
+        specification:
+          $ref: '#/components/schemas/ScenarioCreate'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - scenario_hash
+      - model_hash
+      - specification
+      - created_at
+      title: Scenario
+    ScenarioComparison:
+      properties:
+        id:
+          type: string
+          title: Id
+        baseline_scenario_id:
+          type: string
+          title: Baseline Scenario Id
+        stress_scenario_id:
+          type: string
+          title: Stress Scenario Id
+        baseline_scenario_hash:
+          type: string
+          title: Baseline Scenario Hash
+        stress_scenario_hash:
+          type: string
+          title: Stress Scenario Hash
+        model_hash:
+          type: string
+          title: Model Hash
+        seed:
+          type: integer
+          title: Seed
+        iterations:
+          type: integer
+          title: Iterations
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        baseline_statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        stress_statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        deltas:
+          $ref: '#/components/schemas/ComparisonDeltas'
+        qualification:
+          $ref: '#/components/schemas/ComparisonQualification'
+        warning:
+          type: string
+          title: Warning
+        report_hash:
+          type: string
+          title: Report Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        common_random_numbers:
+          type: boolean
+          title: Common Random Numbers
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - baseline_scenario_id
+      - stress_scenario_id
+      - baseline_scenario_hash
+      - stress_scenario_hash
+      - model_hash
+      - seed
+      - iterations
+      - algorithm_version
+      - baseline_statistics
+      - stress_statistics
+      - deltas
+      - qualification
+      - warning
+      - report_hash
+      - reproducible
+      - common_random_numbers
+      - idempotent_replay
+      - created_at
+      title: ScenarioComparison
+    ScenarioComparisonCreate:
+      properties:
+        baseline_scenario_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Baseline Scenario Id
+        stress_scenario_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Stress Scenario Id
+        seed:
+          type: integer
+          maximum: 9.223372036854776e+18
+          minimum: -9.223372036854776e+18
+          title: Seed
+        iterations:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Iterations
+      additionalProperties: false
+      type: object
+      required:
+      - baseline_scenario_id
+      - stress_scenario_id
+      - seed
+      - iterations
+      title: ScenarioComparisonCreate
+    ScenarioCoverageDossier:
+      properties:
+        id:
+          type: string
+          title: Id
+        requested_scenario_ids:
+          items:
+            type: string
+          type: array
+          title: Requested Scenario Ids
+        ordered_scenario_ids:
+          items:
+            type: string
+          type: array
+          title: Ordered Scenario Ids
+        model_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Id
+        model_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Hash
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        verified_scenario_count:
+          type: integer
+          title: Verified Scenario Count
+        compatibility_errors:
+          items:
+            type: string
+          type: array
+          title: Compatibility Errors
+        points:
+          items:
+            $ref: '#/components/schemas/ScenarioCoveragePoint'
+          type: array
+          title: Points
+        parameter_coverage:
+          items:
+            $ref: '#/components/schemas/ParameterCoverage'
+          type: array
+          title: Parameter Coverage
+        missing_parameters:
+          items:
+            type: string
+          type: array
+          title: Missing Parameters
+        partial_parameters:
+          items:
+            type: string
+          type: array
+          title: Partial Parameters
+        fully_covered_parameters:
+          items:
+            type: string
+          type: array
+          title: Fully Covered Parameters
+        worst_parameter:
+          anyOf:
+          - $ref: '#/components/schemas/WorstParameterCoverage'
+          - type: 'null'
+        thresholds:
+          $ref: '#/components/schemas/ScenarioCoverageThresholds'
+        qualification:
+          $ref: '#/components/schemas/ScenarioCoverageQualification'
+        warning:
+          type: string
+          title: Warning
+        snapshot_hash:
+          type: string
+          title: Snapshot Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        order_independent:
+          type: boolean
+          title: Order Independent
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - requested_scenario_ids
+      - ordered_scenario_ids
+      - model_id
+      - model_hash
+      - algorithm_version
+      - verified_scenario_count
+      - compatibility_errors
+      - points
+      - parameter_coverage
+      - missing_parameters
+      - partial_parameters
+      - fully_covered_parameters
+      - worst_parameter
+      - thresholds
+      - qualification
+      - warning
+      - snapshot_hash
+      - reproducible
+      - order_independent
+      - idempotent_replay
+      - created_at
+      title: ScenarioCoverageDossier
+    ScenarioCoverageDossierCreate:
+      properties:
+        scenario_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 2
+          title: Scenario Ids
+      additionalProperties: false
+      type: object
+      required:
+      - scenario_ids
+      title: ScenarioCoverageDossierCreate
+    ScenarioCoveragePoint:
+      properties:
+        scenario_id:
+          type: string
+          title: Scenario Id
+        scenario_hash:
+          type: string
+          title: Scenario Hash
+        scenario_name:
+          type: string
+          title: Scenario Name
+        scenario_version:
+          type: string
+          title: Scenario Version
+        scenario_created_at:
+          type: string
+          format: date-time
+          title: Scenario Created At
+        overridden_parameters:
+          items:
+            type: string
+          type: array
+          title: Overridden Parameters
+      additionalProperties: false
+      type: object
+      required:
+      - scenario_id
+      - scenario_hash
+      - scenario_name
+      - scenario_version
+      - scenario_created_at
+      - overridden_parameters
+      title: ScenarioCoveragePoint
+    ScenarioCoverageQualification:
+      type: string
+      enum:
+      - COMPLETE
+      - PARTIAL
+      - INSUFFICIENT
+      - INCOMPATIBLE
+      title: ScenarioCoverageQualification
+    ScenarioCoverageThresholds:
+      properties:
+        minimum_scenarios:
+          type: integer
+          title: Minimum Scenarios
+        boundary_tolerance:
+          type: number
+          title: Boundary Tolerance
+      additionalProperties: false
+      type: object
+      required:
+      - minimum_scenarios
+      - boundary_tolerance
+      title: ScenarioCoverageThresholds
+    ScenarioCreate:
+      properties:
+        model_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Model Id
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Name
+        version:
+          type: string
+          pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+          title: Version
+        description:
+          type: string
+          maxLength: 500
+          minLength: 3
+          title: Description
+        parameter_overrides:
+          additionalProperties:
+            type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          type: object
+          maxProperties: 32
+          title: Parameter Overrides
+        assumptions:
+          items:
+            type: string
+          type: array
+          maxItems: 32
+          title: Assumptions
+          default: []
+      additionalProperties: false
+      type: object
+      required:
+      - model_id
+      - name
+      - version
+      - description
+      title: ScenarioCreate
+    ScenarioDriftDossier:
+      properties:
+        id:
+          type: string
+          title: Id
+        requested_run_ids:
+          items:
+            type: string
+          type: array
+          title: Requested Run Ids
+        ordered_run_ids:
+          items:
+            type: string
+          type: array
+          title: Ordered Run Ids
+        model_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Id
+        model_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Hash
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+        iterations:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Iterations
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        verified_run_count:
+          type: integer
+          title: Verified Run Count
+        compatibility_errors:
+          items:
+            type: string
+          type: array
+          title: Compatibility Errors
+        points:
+          items:
+            $ref: '#/components/schemas/ScenarioDriftPoint'
+          type: array
+          title: Points
+        transitions:
+          items:
+            $ref: '#/components/schemas/ScenarioDriftTransition'
+          type: array
+          title: Transitions
+        worst_transition:
+          anyOf:
+          - $ref: '#/components/schemas/WorstScenarioDriftTransition'
+          - type: 'null'
+        affected_scenario_ids:
+          items:
+            type: string
+          type: array
+          title: Affected Scenario Ids
+        thresholds:
+          $ref: '#/components/schemas/ScenarioDriftThresholds'
+        qualification:
+          $ref: '#/components/schemas/ScenarioDriftQualification'
+        warning:
+          type: string
+          title: Warning
+        snapshot_hash:
+          type: string
+          title: Snapshot Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        order_independent:
+          type: boolean
+          title: Order Independent
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - requested_run_ids
+      - ordered_run_ids
+      - model_id
+      - model_hash
+      - seed
+      - iterations
+      - algorithm_version
+      - verified_run_count
+      - compatibility_errors
+      - points
+      - transitions
+      - worst_transition
+      - affected_scenario_ids
+      - thresholds
+      - qualification
+      - warning
+      - snapshot_hash
+      - reproducible
+      - order_independent
+      - idempotent_replay
+      - created_at
+      title: ScenarioDriftDossier
+    ScenarioDriftDossierCreate:
+      properties:
+        run_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 2
+          title: Run Ids
+      additionalProperties: false
+      type: object
+      required:
+      - run_ids
+      title: ScenarioDriftDossierCreate
+    ScenarioDriftPoint:
+      properties:
+        run_id:
+          type: string
+          title: Run Id
+        scenario_id:
+          type: string
+          title: Scenario Id
+        scenario_hash:
+          type: string
+          title: Scenario Hash
+        scenario_name:
+          type: string
+          title: Scenario Name
+        scenario_version:
+          type: string
+          title: Scenario Version
+        scenario_created_at:
+          type: string
+          format: date-time
+          title: Scenario Created At
+        statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+      additionalProperties: false
+      type: object
+      required:
+      - run_id
+      - scenario_id
+      - scenario_hash
+      - scenario_name
+      - scenario_version
+      - scenario_created_at
+      - statistics
+      title: ScenarioDriftPoint
+    ScenarioDriftQualification:
+      type: string
+      enum:
+      - STABLE
+      - DRIFTING
+      - INSUFFICIENT
+      - INCOMPATIBLE
+      title: ScenarioDriftQualification
+    ScenarioDriftThresholds:
+      properties:
+        minimum_runs:
+          type: integer
+          title: Minimum Runs
+        minimum_iterations:
+          type: integer
+          title: Minimum Iterations
+        relative_drift_threshold:
+          type: number
+          title: Relative Drift Threshold
+      additionalProperties: false
+      type: object
+      required:
+      - minimum_runs
+      - minimum_iterations
+      - relative_drift_threshold
+      title: ScenarioDriftThresholds
+    ScenarioDriftTransition:
+      properties:
+        from_run_id:
+          type: string
+          title: From Run Id
+        to_run_id:
+          type: string
+          title: To Run Id
+        from_scenario_id:
+          type: string
+          title: From Scenario Id
+        to_scenario_id:
+          type: string
+          title: To Scenario Id
+        absolute_delta:
+          $ref: '#/components/schemas/SensitivityDeltas'
+        relative_delta:
+          $ref: '#/components/schemas/CoreMetricDeviation'
+        direction:
+          type: string
+          title: Direction
+      additionalProperties: false
+      type: object
+      required:
+      - from_run_id
+      - to_run_id
+      - from_scenario_id
+      - to_scenario_id
+      - absolute_delta
+      - relative_delta
+      - direction
+      title: ScenarioDriftTransition
+    SensitivityAnalysis:
+      properties:
+        id:
+          type: string
+          title: Id
+        scenario_id:
+          type: string
+          title: Scenario Id
+        scenario_hash:
+          type: string
+          title: Scenario Hash
+        model_hash:
+          type: string
+          title: Model Hash
+        parameter:
+          type: string
+          title: Parameter
+        parameter_unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parameter Unit
+        grid:
+          items:
+            type: number
+          type: array
+          title: Grid
+        seed:
+          type: integer
+          title: Seed
+        iterations:
+          type: integer
+          title: Iterations
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        reference_statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        points:
+          items:
+            $ref: '#/components/schemas/SensitivityPoint'
+          type: array
+          title: Points
+        metrics:
+          $ref: '#/components/schemas/SensitivityMetrics'
+        qualification:
+          $ref: '#/components/schemas/SensitivityQualification'
+        warning:
+          type: string
+          title: Warning
+        snapshot_hash:
+          type: string
+          title: Snapshot Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        common_random_numbers:
+          type: boolean
+          title: Common Random Numbers
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - scenario_id
+      - scenario_hash
+      - model_hash
+      - parameter
+      - parameter_unit
+      - grid
+      - seed
+      - iterations
+      - algorithm_version
+      - reference_statistics
+      - points
+      - metrics
+      - qualification
+      - warning
+      - snapshot_hash
+      - reproducible
+      - common_random_numbers
+      - idempotent_replay
+      - created_at
+      title: SensitivityAnalysis
+    SensitivityAnalysisCreate:
+      properties:
+        scenario_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Scenario Id
+        parameter:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Parameter
+        grid:
+          anyOf:
+          - items:
+              type: number
+              maximum: 1000000.0
+              minimum: -1000000.0
+            type: array
+            maxItems: 21
+            minItems: 2
+          - type: 'null'
+          title: Grid
+        start:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Start
+        stop:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Stop
+        steps:
+          anyOf:
+          - type: integer
+            maximum: 21.0
+            minimum: 2.0
+          - type: 'null'
+          title: Steps
+        seed:
+          type: integer
+          maximum: 9.223372036854776e+18
+          minimum: -9.223372036854776e+18
+          title: Seed
+        iterations:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Iterations
+      additionalProperties: false
+      type: object
+      required:
+      - scenario_id
+      - parameter
+      - seed
+      - iterations
+      title: SensitivityAnalysisCreate
+    SensitivityDeltas:
+      properties:
+        mean:
+          type: number
+          title: Mean
+        p05:
+          type: number
+          title: P05
+        p95:
+          type: number
+          title: P95
+      additionalProperties: false
+      type: object
+      required:
+      - mean
+      - p05
+      - p95
+      title: SensitivityDeltas
+    SensitivityMetrics:
+      properties:
+        mean_range:
+          type: number
+          minimum: 0.0
+          title: Mean Range
+        relative_mean_range:
+          type: number
+          minimum: 0.0
+          title: Relative Mean Range
+        endpoint_slope:
+          type: number
+          title: Endpoint Slope
+        elasticity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Elasticity
+        monotonicity:
+          $ref: '#/components/schemas/Monotonicity'
+      additionalProperties: false
+      type: object
+      required:
+      - mean_range
+      - relative_mean_range
+      - endpoint_slope
+      - elasticity
+      - monotonicity
+      title: SensitivityMetrics
+    SensitivityPoint:
+      properties:
+        parameter_value:
+          type: number
+          title: Parameter Value
+        statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        deltas_from_reference:
+          $ref: '#/components/schemas/SensitivityDeltas'
+      additionalProperties: false
+      type: object
+      required:
+      - parameter_value
+      - statistics
+      - deltas_from_reference
+      title: SensitivityPoint
+    SensitivityQualification:
+      type: string
+      enum:
+      - STABLE
+      - SENSITIVE
+      - INSUFFICIENT
+      title: SensitivityQualification
+    SimulationModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        model_hash:
+          type: string
+          title: Model Hash
+        specification:
+          $ref: '#/components/schemas/SimulationModelCreate'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - model_hash
+      - specification
+      - created_at
+      title: SimulationModel
+    SimulationModelCreate:
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Name
+        version:
+          type: string
+          pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+          title: Version
+        summary:
+          type: string
+          maxLength: 500
+          minLength: 3
+          title: Summary
+        assumptions:
+          items:
+            type: string
+          type: array
+          maxItems: 32
+          minItems: 1
+          title: Assumptions
+        variables:
+          items:
+            $ref: '#/components/schemas/VariableSpec'
+          type: array
+          maxItems: 32
+          minItems: 1
+          title: Variables
+        outcome:
+          $ref: '#/components/schemas/OutcomeSpec'
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - version
+      - summary
+      - assumptions
+      - variables
+      - outcome
+      title: SimulationModelCreate
+    SimulationRun:
+      properties:
+        id:
+          type: string
+          title: Id
+        scenario_id:
+          type: string
+          title: Scenario Id
+        scenario_hash:
+          type: string
+          title: Scenario Hash
+        seed:
+          type: integer
+          title: Seed
+        iterations:
+          type: integer
+          title: Iterations
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        qualification:
+          type: string
+          title: Qualification
+        warning:
+          type: string
+          title: Warning
+        result_hash:
+          type: string
+          title: Result Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - scenario_id
+      - scenario_hash
+      - seed
+      - iterations
+      - algorithm_version
+      - statistics
+      - qualification
+      - warning
+      - result_hash
+      - reproducible
+      - idempotent_replay
+      - created_at
+      title: SimulationRun
+    SimulationRunCreate:
+      properties:
+        scenario_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Scenario Id
+        seed:
+          type: integer
+          maximum: 9.223372036854776e+18
+          minimum: -9.223372036854776e+18
+          title: Seed
+        iterations:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Iterations
+      additionalProperties: false
+      type: object
+      required:
+      - scenario_id
+      - seed
+      - iterations
+      title: SimulationRunCreate
+    SimulationStatistics:
+      properties:
+        count:
+          type: integer
+          title: Count
+        minimum:
+          type: number
+          title: Minimum
+        maximum:
+          type: number
+          title: Maximum
+        mean:
+          type: number
+          title: Mean
+        population_stddev:
+          type: number
+          title: Population Stddev
+        p05:
+          type: number
+          title: P05
+        median:
+          type: number
+          title: Median
+        p95:
+          type: number
+          title: P95
+      additionalProperties: false
+      type: object
+      required:
+      - count
+      - minimum
+      - maximum
+      - mean
+      - population_stddev
+      - p05
+      - median
+      - p95
+      title: SimulationStatistics
+    StabilityAnalysis:
+      properties:
+        mean_direction:
+          $ref: '#/components/schemas/MeanDirection'
+        ranking_stability:
+          $ref: '#/components/schemas/RankingStability'
+        mean_median_pairwise_agreement:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Mean Median Pairwise Agreement
+        comparable_pairs:
+          type: integer
+          minimum: 0.0
+          title: Comparable Pairs
+      additionalProperties: false
+      type: object
+      required:
+      - mean_direction
+      - ranking_stability
+      - comparable_pairs
+      title: StabilityAnalysis
+    SurfaceCell:
+      properties:
+        parameter_x_value:
+          type: number
+          title: Parameter X Value
+        parameter_y_value:
+          type: number
+          title: Parameter Y Value
+        statistics:
+          $ref: '#/components/schemas/SimulationStatistics'
+        additive_residual:
+          type: number
+          title: Additive Residual
+      additionalProperties: false
+      type: object
+      required:
+      - parameter_x_value
+      - parameter_y_value
+      - statistics
+      - additive_residual
+      title: SurfaceCell
+    UncertaintyDossier:
+      properties:
+        id:
+          type: string
+          title: Id
+        run_ids:
+          items:
+            type: string
+          type: array
+          title: Run Ids
+        limits:
+          items:
+            $ref: '#/components/schemas/MetricLimit'
+          type: array
+          title: Limits
+        scenario_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scenario Id
+        scenario_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scenario Hash
+        model_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Hash
+        algorithm_version:
+          type: string
+          title: Algorithm Version
+        verified_run_count:
+          type: integer
+          title: Verified Run Count
+        compatibility_errors:
+          items:
+            type: string
+          type: array
+          title: Compatibility Errors
+        envelopes:
+          items:
+            $ref: '#/components/schemas/MetricEnvelope'
+          type: array
+          title: Envelopes
+        violations:
+          items:
+            $ref: '#/components/schemas/LimitViolation'
+          type: array
+          title: Violations
+        worst_run:
+          anyOf:
+          - $ref: '#/components/schemas/WorstRun'
+          - type: 'null'
+        stability:
+          anyOf:
+          - $ref: '#/components/schemas/StabilityAnalysis'
+          - type: 'null'
+        thresholds:
+          $ref: '#/components/schemas/RobustnessThresholds'
+        qualification:
+          $ref: '#/components/schemas/RobustnessQualification'
+        warning:
+          type: string
+          title: Warning
+        snapshot_hash:
+          type: string
+          title: Snapshot Hash
+        reproducible:
+          type: boolean
+          title: Reproducible
+        order_independent:
+          type: boolean
+          title: Order Independent
+        idempotent_replay:
+          type: boolean
+          title: Idempotent Replay
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - run_ids
+      - limits
+      - scenario_id
+      - scenario_hash
+      - model_hash
+      - algorithm_version
+      - verified_run_count
+      - compatibility_errors
+      - envelopes
+      - violations
+      - worst_run
+      - stability
+      - thresholds
+      - qualification
+      - warning
+      - snapshot_hash
+      - reproducible
+      - order_independent
+      - idempotent_replay
+      - created_at
+      title: UncertaintyDossier
+    UncertaintyDossierCreate:
+      properties:
+        run_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 2
+          title: Run Ids
+        limits:
+          items:
+            $ref: '#/components/schemas/MetricLimit'
+          type: array
+          maxItems: 7
+          title: Limits
+          default: []
+      additionalProperties: false
+      type: object
+      required:
+      - run_ids
+      title: UncertaintyDossierCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VariableSpec:
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_-]{0,63}$
+          title: Name
+        distribution:
+          $ref: '#/components/schemas/Distribution'
+        value:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Value
+        low:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Low
+        high:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: High
+        mode:
+          anyOf:
+          - type: number
+            maximum: 1000000.0
+            minimum: -1000000.0
+          - type: 'null'
+          title: Mode
+        unit:
+          anyOf:
+          - type: string
+            maxLength: 32
+          - type: 'null'
+          title: Unit
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - distribution
+      title: VariableSpec
+    WorstCell:
+      properties:
+        parameter_x_value:
+          type: number
+          title: Parameter X Value
+        parameter_y_value:
+          type: number
+          title: Parameter Y Value
+        mean:
+          type: number
+          title: Mean
+      additionalProperties: false
+      type: object
+      required:
+      - parameter_x_value
+      - parameter_y_value
+      - mean
+      title: WorstCell
+    WorstConvergencePoint:
+      properties:
+        run_id:
+          type: string
+          title: Run Id
+        iterations:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Iterations
+        maximum_relative_deviation:
+          type: number
+          minimum: 0.0
+          title: Maximum Relative Deviation
+      additionalProperties: false
+      type: object
+      required:
+      - run_id
+      - iterations
+      - maximum_relative_deviation
+      title: WorstConvergencePoint
+    WorstParameterCoverage:
+      properties:
+        parameter:
+          type: string
+          title: Parameter
+        coverage_status:
+          type: string
+          title: Coverage Status
+        span_ratio:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Span Ratio
+        distinct_override_count:
+          type: integer
+          title: Distinct Override Count
+      additionalProperties: false
+      type: object
+      required:
+      - parameter
+      - coverage_status
+      - span_ratio
+      - distinct_override_count
+      title: WorstParameterCoverage
+    WorstRun:
+      properties:
+        run_id:
+          type: string
+          title: Run Id
+        seed:
+          type: integer
+          title: Seed
+        iterations:
+          type: integer
+          title: Iterations
+        p05:
+          type: number
+          title: P05
+        mean:
+          type: number
+          title: Mean
+        violation_count:
+          type: integer
+          minimum: 0.0
+          title: Violation Count
+      additionalProperties: false
+      type: object
+      required:
+      - run_id
+      - seed
+      - iterations
+      - p05
+      - mean
+      - violation_count
+      title: WorstRun
+    WorstScenarioDriftTransition:
+      properties:
+        from_run_id:
+          type: string
+          title: From Run Id
+        to_run_id:
+          type: string
+          title: To Run Id
+        maximum_relative_delta:
+          type: number
+          minimum: 0.0
+          title: Maximum Relative Delta
+      additionalProperties: false
+      type: object
+      required:
+      - from_run_id
+      - to_run_id
+      - maximum_relative_delta
+      title: WorstScenarioDriftTransition
