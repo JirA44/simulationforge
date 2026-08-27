@@ -26,3 +26,16 @@ curl -X POST http://localhost:8000/v1/scenario-coverage-dossiers -d '{"simulatio
 
 ## Pour qui ?
 Devs, auditeurs, ops, chercheurs — qui ont besoin d'une preuve opposable, pas d'un verdict déclaratif.
+
+## Problèmes réglés (détaillés)
+- **Simulationforge** → - Preuve / dossier / trace non opposable → résolu par dossier immuable et hash SHA-256
+- **Simulationforge** → - Verdict déclaratif sans justification → le dossier expose obligations, fournisseurs et ratios
+- **Simulationforge** → - Chaînage caché ou lacune invisible → serveur recharge et recalcule indépendamment du client
+- **Simulationforge** → - Tiers qui ne peut pas relancer → le dossier est public et rejouable sans clé client
+
+## Exemples d'utilisation (scénarios réels)
+- **Finance stress test [-40%,+60%]** → le dossier sert de preuve technique (pas d'autorité déclarative)
+- **Jumeau numérique usine (borne panne)** → le dossier sert de preuve technique (pas d'autorité déclarative)
+- **Climat : scénarios RCP couverts** → le dossier sert de preuve technique (pas d'autorité déclarative)
+
+
