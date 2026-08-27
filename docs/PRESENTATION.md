@@ -1,4 +1,4 @@
-# Simulationforge — Présentation complète
+# SimulationForge — Présentation complète
 
 ## Présentation
 simulationforge est un registre immuable, hashé (SHA-256), auditable et rejouable.
