@@ -1,18 +1,28 @@
-# SimulationForge — registre de simulations
+# Simulationforge — Présentation complète
 
 ## Présentation
-simulationforge est un registre immuable, hashé et auditable.
+simulationforge est un registre immuable, hashé (SHA-256), auditable et rejouable.
 
-## À quoi ça sert ?
-Vérifie les bornes et la couverture des scénarios simulés.
+## À quoi ça sert ? (problèmes réglés)
+- **Scénario extrême oublié** → résolu par un dossier déterministe, ordre-indépendant
+- **Borne non justifiée** → résolu par un dossier déterministe, ordre-indépendant
+- **Stress test qui ne couvre pas l'intervalle annoncé** → résolu par un dossier déterministe, ordre-indépendant
 
-## Cas d'usages concrets
-- Stress test financier, simulation physique, jumeau numérique
+## Cas d'utilisation concrets
+- Finance: prouver que le stress test couvre [-40%, +60%] sur 100 scénarios
+- Jumeau numérique usine: borner la panne
+- Climat: dossier de couverture de scénarios RCP
 
-## À quoi ça pourrait servir (futur)
-- Scénarios climatiques, risk management, war-gaming
+## Exemples d'utilisation (API)
+```bash
+curl -X POST http://localhost:8000/v1/scenario-coverage-dossiers -d '{"simulation_ids": [...] }'
+# → { "qualification": "COMPLETE|GAPPED|INSUFFICIENT|INCOMPATIBLE", "coverage_ratio": 0.94, ... }
+```
 
-## En 1 commande
-`ash
-curl -X POST http://localhost:8000/v1/... # voir README
-`
+## À quoi ça pourrait servir (futur / possibilités)
+- Risk management bancaire
+- War-gaming militaire
+- Assurance: tarification par dossier de scénarios
+
+## Pour qui ?
+Devs, auditeurs, ops, chercheurs — qui ont besoin d'une preuve opposable, pas d'un verdict déclaratif.
